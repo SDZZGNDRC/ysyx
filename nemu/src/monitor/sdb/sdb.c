@@ -1,8 +1,11 @@
 #include <stdlib.h>
+#include <ctype.h>
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <common.h>
+#include <memory/paddr.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -27,7 +30,28 @@ static char* rl_gets() {
 
   return line_read;
 }
-
+vaddr_t str2pc(char *str){
+  /*Convert the string in hex to number in dec*/
+  int slen = strlen(str);
+  vaddr_t pc;
+  int i;
+  for(i = 0, pc = 0; i<slen; i++){
+	  if(isalpha(str[i])){
+		  if(isupper(str[i])){
+			  pc = pc*16 + str[i] - 'A' + 10;
+		  }else{
+			  pc = pc*16 + str[i] - 'a' + 10;
+		  }
+	  }else if(isdigit(str[i])){
+			  pc = pc*16 + str[i] - '0';
+	  }else{
+	  	printf("str2pc: input error!\n");
+		return 0;
+	  }
+  }
+  printf("str2pc: pc = %lu\n", pc);
+  return pc;
+}
 static int cmd_c(char *args) {
   cpu_exec(-1);
   return 0;
@@ -54,8 +78,16 @@ static int cmd_info(char *args){
   return -1;
 }
 static int cmd_x(char *args){
-  printf("1: %s\n", strtok(args, " "));
-  printf("2: %s\n", strtok(NULL, " "));
+  int n = atoi(strtok(args, " "));
+  vaddr_t pc;
+  char *str = strtok(NULL, " ");
+  if(strlen(str)<4){
+	  printf("cmd_x: input error!\n");
+	  return -1;
+  }
+  pc = str2pc(str+2);
+  printf("1: %d\n", n);
+  printf("2: %lu\n", pc);
   return 0;
 }
 static int cmd_help(char *args);
