@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>
@@ -37,7 +38,8 @@ static int cmd_q(char *args) {
   return -1;
 }
 static int cmd_si(char *args){
-  printf("cmd_si: %s\n", args);
+  cpu_exec(atoi(args));
+  //printf("cmd_si: %s\n", args);
   return 0;
 }
 static int cmd_help(char *args);
