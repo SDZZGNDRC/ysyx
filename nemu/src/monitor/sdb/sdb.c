@@ -78,7 +78,7 @@ static int cmd_info(char *args){
   return -1;
 }
 static int cmd_x(char *args){
-  //int n = atoi(strtok(args, " "));
+  int n = atoi(strtok(args, " "));
   vaddr_t pc;
   char *str = strtok(NULL, " ");
   if(strlen(str)<4){
@@ -86,7 +86,10 @@ static int cmd_x(char *args){
 	  return -1;
   }
   pc = str2pc(str+2);
-  printf("Memory[%lu]\t%lu\n", pc, vaddr_read(pc, 8));
+  int i;
+  for(i = 0; i < n; i++,pc+=8){
+  	printf("Memory[%lu]\t%lu\n", pc, vaddr_read(pc, 8));
+  }
   //printf("1: %d\n", n);
   //printf("2: %lu\n", pc);
   return 0;
