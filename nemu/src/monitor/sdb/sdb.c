@@ -5,7 +5,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <common.h>
-#include <memory/paddr.h>
+#include <memory/vaddr.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -49,7 +49,7 @@ vaddr_t str2pc(char *str){
 		return 0;
 	  }
   }
-  printf("str2pc: pc = %lu\n", pc);
+  //printf("str2pc: pc = %lu\n", pc);
   return pc;
 }
 static int cmd_c(char *args) {
@@ -78,7 +78,7 @@ static int cmd_info(char *args){
   return -1;
 }
 static int cmd_x(char *args){
-  int n = atoi(strtok(args, " "));
+  //int n = atoi(strtok(args, " "));
   vaddr_t pc;
   char *str = strtok(NULL, " ");
   if(strlen(str)<4){
@@ -86,8 +86,9 @@ static int cmd_x(char *args){
 	  return -1;
   }
   pc = str2pc(str+2);
-  printf("1: %d\n", n);
-  printf("2: %lu\n", pc);
+  printf("Memory[%lu]\t%lu\n", pc, vaddr_read(pc, 8));
+  //printf("1: %d\n", n);
+  //printf("2: %lu\n", pc);
   return 0;
 }
 static int cmd_help(char *args);
