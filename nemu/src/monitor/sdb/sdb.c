@@ -42,6 +42,18 @@ static int cmd_si(char *args){
   //printf("cmd_si: %s\n", args);
   return 0;
 }
+
+static int cmd_info(char *args){
+  if(strcmp(args,"r") == 0){
+	  isa_reg_display();
+	  return 0;
+  }else{
+	  printf("cmd_info: args error!\n");
+	  return -1;
+  }
+  return -1;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -53,6 +65,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execution by n steps", cmd_si },
+  { "info", "Printf all the global regs", cmd_info },
   /* TODO: Add more commands */
 
 };
