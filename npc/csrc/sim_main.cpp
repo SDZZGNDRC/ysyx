@@ -13,7 +13,7 @@ int main(int argc, char **argv, char **env){
 	Verilated::traceEverOn(true);
 	VerilatedVcdC* tfp = new VerilatedVcdC;
 	top->trace(tfp, 99);
-	tfp->open("obj_dir/test/simx.vcd");
+	tfp->open("obj_dir/simx.vcd");
 	int n = 0;
 	while(n < 100){
 		contextp->timeInc(1);
