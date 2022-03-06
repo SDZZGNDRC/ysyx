@@ -1,3 +1,4 @@
+VPATH := csrc : vsrc
 all:
 	@echo "Write this Makefile by your self."
 
